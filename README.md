@@ -2,8 +2,9 @@
 
 > 見えないバイ菌の位置を覚えて、振り返って白い城を狙い撃つ、一人称視点の記憶シューティング
 
-<!-- TODO: プレイ画面のスクリーンショット or GIF を images/ に置いて差し替え -->
-![プレイ画面](images/screenshot.png)
+| モニターで覚える | 振り返って狙う |
+|---|---|
+| ![モニター画面](images/monitor.png) | ![プレイ画面](images/play.png) |
 
 ### ▶ [unityroomでプレイする（ブラウザ・約3分）](https://unityroom.com/games/shiroioshiro)
 
