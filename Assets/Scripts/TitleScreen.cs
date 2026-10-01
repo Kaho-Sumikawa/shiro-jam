@@ -3,8 +3,8 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 // タイトル画面 兼 遊び方表示にアタッチする。
-// 「スタート」でゲーム開始、「遊び方」で遊び方パネルを開閉する。
-// ゲーム開始後も howToPlayKey (デフォルトTab) でいつでも遊び方を開閉できる。
+// マウスクリックに加えて、キーボードでも操作できる：
+// Enter＝スタート、Tab＝遊び方を開く、Esc＝閉じる/戻る。
 public class TitleScreen : MonoBehaviour
 {
     [SerializeField] private GameObject titlePanel;
@@ -14,7 +14,6 @@ public class TitleScreen : MonoBehaviour
     [SerializeField] private Button backButton;
     [SerializeField] private MonoBehaviour[] scriptsToEnableOnStart;
     [SerializeField] private Rigidbody playerRigidbody;
-    [SerializeField] private Key howToPlayKey = Key.Tab;
     [SerializeField] private GameObject tabHint;
 
     private bool gameStarted;
@@ -51,16 +50,34 @@ public class TitleScreen : MonoBehaviour
 
     private void Update()
     {
-        if (!gameStarted || Keyboard.current == null || !Keyboard.current[howToPlayKey].wasPressedThisFrame)
+        if (Keyboard.current == null)
         {
             return;
         }
 
-        if (howToPlayPanel != null && howToPlayPanel.activeSelf)
+        bool howToPlayOpen = howToPlayPanel != null && howToPlayPanel.activeSelf;
+
+        if (howToPlayOpen)
         {
-            HideHowToPlay();
+            if (Keyboard.current.escapeKey.wasPressedThisFrame)
+            {
+                HideHowToPlay();
+            }
+            return;
         }
-        else
+
+        if (!gameStarted)
+        {
+            if (Keyboard.current.enterKey.wasPressedThisFrame || Keyboard.current.numpadEnterKey.wasPressedThisFrame)
+            {
+                HandleStart();
+            }
+            else if (Keyboard.current.tabKey.wasPressedThisFrame)
+            {
+                ShowHowToPlay();
+            }
+        }
+        else if (Keyboard.current.tabKey.wasPressedThisFrame)
         {
             ShowHowToPlay();
         }
